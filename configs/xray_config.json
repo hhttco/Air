@@ -1,6 +1,6 @@
 {
   "log": {
-    "access": "/var/log/au/xr.log"
+    "access": "/var/log/air/xr.log"
   },
   "stats": {},
   "api": {
