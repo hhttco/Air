@@ -1,0 +1,14 @@
+[Unit]
+Description=Air - main Service
+After=network.target
+BindsTo=xray.service
+
+[Service]
+Type=simple
+User=root
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/air -c /usr/local/etc/air/air.json
+
+[Install]
+WantedBy=multi-user.target
