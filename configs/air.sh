@@ -515,7 +515,7 @@ get_latest_air_version() {
 update_air() {
   air_url="https://github.com/hhttco/Air/releases/download/${VERSION}/Air-linux-${MACHINE}.zip"
 
-  wget -N  ${air_url} -O ./air.zip
+  wget -N ${air_url} -O ./air.zip
   unzip ./air.zip -d /usr/local/bin/
   rm ./air.zip
   chmod +x /usr/local/bin/air
