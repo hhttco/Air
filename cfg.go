@@ -18,7 +18,7 @@ var (
 			Access:   "",
 		},
 		Panel: Panel{
-			Type: "sspanel",
+			Type: "v2board",
 		},
 		Proxy: Proxy{
 			Type:           "xray",
@@ -27,12 +27,12 @@ var (
 			InTags:         []string{},
 			APIAddress:     "127.0.0.1",
 			APIPort:        10085,
-			LogPath:        "/var/log/au/xr.log",
+			LogPath:        "/var/log/air/xr.log",
 			ForceCloseTLS:  false,
 			EnableSniffing: true,
 			Cert: Cert{
-				CertPath: "/usr/local/share/au/server.crt",
-				KeyPath:  "/usr/local/share/au/server.key",
+				CertPath: "/usr/local/share/air/server.crt",
+				KeyPath:  "/usr/local/share/air/server.key",
 			},
 		},
 		Sync: Sync{
