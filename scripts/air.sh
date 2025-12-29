@@ -117,6 +117,8 @@ fast_install() {
             start 0
         fi
     fi
+
+    before_show_menu
 }
 
 update_xray(){
