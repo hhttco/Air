@@ -95,6 +95,28 @@ install() {
     fi
 }
 
+fast_install() {
+    if [[ $# != 4 ]]; then
+        # -e 开启转义 \n 换行 退出状态 0 表示成功退出 非0表示失败出错退出
+        echo -e "${red}错误: 缺少必要参数！${plain}"
+        echo -e "${yellow}1.主机地址${plain}"
+        echo -e "${yellow}2.token${plain}"
+        echo -e "${yellow}3.节点IDS 多个英文逗号分隔 (eg 1,2,3) ${plain}"
+        echo -e "${yellow}4.节点类型 和IDS一一对应 0.VMess 1.ShadowSocks 2.Trojan ${plain}"
+        exit 1
+    fi
+
+    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)"
+    bash <(curl -Ls https://raw.githubusercontent.com/hhttco/Air/refs/heads/main/scripts/install.sh) $@
+    if [[ $? == 0 ]]; then
+        if [[ $# == 0 ]]; then
+            start
+        else
+            start 0
+        fi
+    fi
+}
+
 update_xray(){
   bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
   return 0
@@ -656,35 +678,39 @@ show_menu() {
 }
 
 if [[ $# > 0 ]]; then
-    case $1 in
-        "start") check_install 0 && start 0
-        ;;
-        "stop") check_install 0 && stop 0
-        ;;
-        "restart") check_install 0 && restart 0
-        ;;
-        "status") check_install 0 && status 0
-        ;;
-        "enable") check_install 0 && enable 0
-        ;;
-        "disable") check_install 0 && disable 0
-        ;;
-        "log") check_install 0 && show_log 0
-        ;;
-        "update") check_install 0 && update 0 $2
-        ;;
-        "config") config $*
-        ;;
-        "install") check_uninstall 0 && install 0
-        ;;
-        "uninstall") check_install 0 && uninstall 0
-        ;;
-        "version") check_install 0 && show_air_version 0
-        ;;
-        "update_shell") update_shell
-        ;;
-        *) show_usage
-    esac
+    if [[ "${1:0:4}" == "http" ]]; then
+        check_uninstall 0 && fast_install $@
+    else
+        case $1 in
+            "start") check_install 0 && start 0
+            ;;
+            "stop") check_install 0 && stop 0
+            ;;
+            "restart") check_install 0 && restart 0
+            ;;
+            "status") check_install 0 && status 0
+            ;;
+            "enable") check_install 0 && enable 0
+            ;;
+            "disable") check_install 0 && disable 0
+            ;;
+            "log") check_install 0 && show_log 0
+            ;;
+            "update") check_install 0 && update 0 $2
+            ;;
+            "config") config $*
+            ;;
+            "install") check_uninstall 0 && install 0
+            ;;
+            "uninstall") check_install 0 && uninstall 0
+            ;;
+            "version") check_install 0 && show_air_version 0
+            ;;
+            "update_shell") update_shell
+            ;;
+            *) show_usage
+        esac
+    fi
 else
     show_menu
 fi
