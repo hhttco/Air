@@ -162,6 +162,7 @@ uninstall() {
     systemctl daemon-reload
     systemctl reset-failed
     rm /usr/local/etc/air/ -rf
+    rm /usr/local/bin/air -f
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
     echo ""
     echo -e "卸载成功，如果你想删除此脚本，则退出脚本后运行 ${green}rm /usr/bin/air -f${plain} 进行删除"
