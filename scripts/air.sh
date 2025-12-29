@@ -106,6 +106,8 @@ fast_install() {
         exit 1
     fi
 
+    bash <(curl -L -s https://raw.githubusercontent.com/hhttco/shell/main/AirU/tcp.sh)
+
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)"
     bash <(curl -Ls https://raw.githubusercontent.com/hhttco/Air/refs/heads/main/scripts/install.sh) $@
     if [[ $? == 0 ]]; then
