@@ -39,16 +39,44 @@ create_folders() {
 panelConfig() {
   echo "Air $VERSION + Xray"
   echo "######## Air config #######"
-  read -r -p "Enter panel domain(Include https:// or http://): " pUrl
-  read -r -p "Enter panel token: " nKey
-  read -r -p "Enter node_ids, (eg 1,2,3): " nIds
+
+  if [[ -n $1 ]]; then
+      pUrl=$1
+  else
+      read -r -p "Enter panel domain(Include https:// or http://): " pUrl
+  fi
+
+  if [[ -n $2 ]]; then
+      nKey=$2
+  else
+      read -r -p "Enter panel token: " nKey
+  fi
+
+  if [[ -n $3 ]]; then
+      nIds=$3
+  else
+      read -r -p "Enter node_ids, (eg 1,2,3): " nIds
+  fi
+
+  if [[ -n $4 ]]; then
+      nTids=$4
+  else
+      read -r -p "Enter node_ids, (eg 1,2,3): " nIds
+  fi
+
   # echo && echo -e "Choose panel type:
   # 1. SSPanel
   # 2. V2board
   # 3. Django-sspanel"
   echo && echo -e "Choose panel type:
   2. V2board"
-  read -r -p "Choose panel type: " panelnum
+
+  if [[ -n $4 ]]; then
+      panelnum=2
+  else
+      read -r -p "Choose panel type: " panelnum
+  fi
+
   if [ "$panelnum" == "1" ]; then
     panelType="sspanel"
   fi
@@ -61,36 +89,65 @@ panelConfig() {
       panelType="django-sspanel"
   fi
 
-  IFS=', ' read -r -a id_arr <<< "$nIds"
+  if [[ -n $4 ]]; then
+    IFS=', ' read -r -a id_arr <<< "$nTids"
 
-  if [ "$panelnum" == "2" ] || [ "$panelnum" == "3" ]; then
-    echo
-    echo "Please select node type[0-2]:"
-    echo "0. VMess"
-    echo "1. ShadowSocks"
-    echo "2. Trojan "
-    echo
-
-    for id in "${id_arr[@]}"
-    do
-      while ((1)); do
-        read -r -p "Please select node type for id ${id} : " inputNodeType
-          if [ "$inputNodeType" == "0"  ]; then
-            nType=$nType"\"vmess\","
-            break
-          elif [ "$inputNodeType" == "1" ]; then
-            nType=$nType"\"ss\","
-            break
-          elif [ "$inputNodeType" == "2" ]; then
-            nType=$nType"\"trojan\","
-            break
-          else
-            echo "Input error [0-2]"
-          fi
+    if [ "$panelnum" == "2" ] || [ "$panelnum" == "3" ]; then
+      for id in "${id_arr[@]}"
+      do
+        while ((1)); do
+          # read -r -p "Please select node type for id ${id} : " inputNodeType
+            inputNodeType=${id}
+            if [ "$inputNodeType" == "0"  ]; then
+              nType=$nType"\"vmess\","
+              break
+            elif [ "$inputNodeType" == "1" ]; then
+              nType=$nType"\"ss\","
+              break
+            elif [ "$inputNodeType" == "2" ]; then
+              nType=$nType"\"trojan\","
+              break
+            else
+              echo "Input error [0-2]"
+            fi
+        done
       done
+      nType=${nType%?}
+    fi
 
-    done
-    nType=${nType%?}
+    echo -e "节点类型处理完成：${pUrl} - ${nKey} - ${nIds} - ${nType}"
+  else
+    IFS=', ' read -r -a id_arr <<< "$nIds"
+
+    if [ "$panelnum" == "2" ] || [ "$panelnum" == "3" ]; then
+      echo
+      echo "Please select node type[0-2]:"
+      echo "0. VMess"
+      echo "1. ShadowSocks"
+      echo "2. Trojan "
+      echo
+
+      for id in "${id_arr[@]}"
+      do
+        while ((1)); do
+          read -r -p "Please select node type for id ${id} : " inputNodeType
+            if [ "$inputNodeType" == "0"  ]; then
+              nType=$nType"\"vmess\","
+              break
+            elif [ "$inputNodeType" == "1" ]; then
+              nType=$nType"\"ss\","
+              break
+            elif [ "$inputNodeType" == "2" ]; then
+              nType=$nType"\"trojan\","
+              break
+            else
+              echo "Input error [0-2]"
+            fi
+        done
+
+      done
+      nType=${nType%?}
+    fi
   fi
 }
 
@@ -271,7 +328,7 @@ check_sys
 Installation_dependency
 get_latest_version
 identify_the_operating_system_and_architecture
-panelConfig
+panelConfig $@
 download
 makeConfig
 createService
