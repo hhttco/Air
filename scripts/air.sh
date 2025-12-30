@@ -106,6 +106,8 @@ fast_install() {
         exit 1
     fi
 
+    apt -y update && apt install  -y curl wget vim zip sudo unzip
+
     # bash <(curl -L -s https://raw.githubusercontent.com/hhttco/shell/main/AirU/tcp.sh)
 
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)"
