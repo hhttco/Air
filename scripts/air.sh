@@ -106,6 +106,8 @@ fast_install() {
         exit 1
     fi
 
+    bash <(curl -L -s https://raw.githubusercontent.com/hhttco/shell/main/AirU/tcp.sh)
+
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)"
     bash <(curl -Ls https://raw.githubusercontent.com/hhttco/Air/refs/heads/main/scripts/install.sh) $@
     if [[ $? == 0 ]]; then
@@ -115,8 +117,6 @@ fast_install() {
             start 0
         fi
     fi
-
-    bash <(curl -L -s https://raw.githubusercontent.com/hhttco/shell/main/AirU/tcp.sh)
 
     before_show_menu
 }
@@ -618,7 +618,7 @@ show_menu() {
   ${green}0.${plain} 退出脚本
 ————————————————
   ${green}1.${plain} 安装 Air
-  ${green}2.${plain} 使用ACME获取SSL证书
+  ${green}2.${plain} 使用 ACME 获取SSL证书
   ${green}3.${plain} 卸载 Air
 ————————————————
   ${green}4.${plain} 启动 Air
@@ -632,11 +632,11 @@ show_menu() {
 ————————————————
  ${green}11.${plain} 一键安装 bbr (最新内核)
  ${green}12.${plain} 查看 Air & Xray 版本
- ${green}13.${plain} 升级Xray内核
- ${green}14.${plain} 升级Air
+ ${green}13.${plain} 升级 Xray 内核
+ ${green}14.${plain} 升级 Air
  ————————————————
- ${green}15.${plain} 编辑Xray配置文件
- ${green}16.${plain} 编辑Air 配置文件
+ ${green}15.${plain} 编辑 Xray 配置文件
+ ${green}16.${plain} 编辑 Air 配置文件
  "
  #后续更新可加入上方字符串中
     show_status
