@@ -109,6 +109,7 @@ fast_install() {
     apt -y update && apt install  -y curl wget vim zip sudo unzip
 
     # bash <(curl -L -s https://raw.githubusercontent.com/hhttco/shell/main/AirU/tcp.sh)
+    install_original_bbr
 
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)"
     bash <(curl -Ls https://raw.githubusercontent.com/hhttco/Air/refs/heads/main/scripts/install.sh) $@
@@ -276,6 +277,15 @@ install_bbr() {
     #fi
 
     #before_show_menu
+}
+
+install_original_bbr() {
+    echo -e "${green}安装VPS原版BBR 需要内核版本大于 4.9 当前内核版本 $(uname -r)${plain}"
+    echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+    echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+    sysctl -p
+    lsmod | grep bbr
+    echo -e "${green}安装VPS原版BBR 完成 ✅${plain}"
 }
 
 update_shell() {
@@ -639,6 +649,8 @@ show_menu() {
  ————————————————
  ${green}15.${plain} 编辑 Xray 配置文件
  ${green}16.${plain} 编辑 Air 配置文件
+ ————————————————
+ ${green}17.${plain} 一键安装 VPS 原版 bbr
  "
  #后续更新可加入上方字符串中
     show_status
@@ -678,6 +690,8 @@ show_menu() {
         15) check_install && open_xray_config
         ;;
         16) check_install && open_air_config
+        ;;
+        17) install_original_bbr
         ;;
         *) echo -e "${red}请输入正确的数字 [0-16]${plain}"
         ;;
