@@ -121,7 +121,7 @@ fast_install() {
         fi
     fi
 
-    before_show_menu
+    # before_show_menu
 }
 
 update_xray(){
