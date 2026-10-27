@@ -160,9 +160,9 @@ Installation_dependency() {
     apt-get install -y ca-certificates curl wget unzip socat
   fi
   cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-  mkdir -p /var/log/air
-  chmod 755 /var/log/air
-  chown -R nobody /var/log/air
+  sudo mkdir -p /var/log/air
+  sudo chown -R xray:xray /var/log/air
+  sudo chmod -R 755 /var/log/air
 }
 
 download() {
