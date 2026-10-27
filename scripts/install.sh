@@ -162,7 +162,7 @@ Installation_dependency() {
   cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   mkdir -p /var/log/air
   chmod 755 /var/log/air
-  chown -R root:root /var/log/air
+  chown -R nobody /var/log/air
 }
 
 download() {
